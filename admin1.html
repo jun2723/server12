@@ -13,57 +13,72 @@
     <button onclick="deleteSelected()">선택된 내용 삭제</button>
 
     <script>
-        // 저장된 내용을 관리할 데이터
-        var data = [
-            {id: 1, content: "내용 1"},
-            {id: 2, content: "내용 2"},
-            {id: 3, content: "내용 3"}
-        ];
+        // 서버로부터 데이터를 가져오고 삭제하는 함수
+        function fetchDataAndDeleteSelected() {
+            // 서버로부터 데이터를 가져오는 함수
+            function fetchData() {
+                fetch('http://localhost:3000/api/content')
+                    .then(response => response.json())
+                    .then(json => {
+                        data = json;
+                        displayContent();
+                    })
+                    .catch(error => console.error('Error fetching data:', error));
+            }
 
-        // 저장된 내용을 표시하는 함수
-        function displayContent() {
-            var contentList = document.getElementById("content-list");
-            contentList.innerHTML = ''; // 기존의 목록을 지웁니다.
+            // 저장된 내용을 표시하는 함수
+            function displayContent() {
+                var contentList = document.getElementById("content-list");
+                contentList.innerHTML = ''; // 기존의 목록을 지웁니다.
 
-            data.forEach(function(item) {
-                var listItem = document.createElement("li");
-                var checkbox = document.createElement("input");
-                checkbox.type = "checkbox";
-                checkbox.name = "content";
-                checkbox.value = item.id;
-                listItem.appendChild(checkbox);
-                listItem.appendChild(document.createTextNode(item.content));
-                contentList.appendChild(listItem);
-            });
-        }
-
-        // 선택된 내용을 삭제하는 함수
-        function deleteSelected() {
-            var checkboxes = document.getElementsByName("content");
-            var selectedItems = [];
-
-            checkboxes.forEach(function(checkbox) {
-                if (checkbox.checked) {
-                    selectedItems.push(parseInt(checkbox.value));
-                }
-            });
-
-            // 선택된 항목 삭제
-            selectedItems.forEach(function(id) {
-                var index = data.findIndex(function(item) {
-                    return item.id === id;
+                data.forEach(function(item) {
+                    var listItem = document.createElement("li");
+                    var checkbox = document.createElement("input");
+                    checkbox.type = "checkbox";
+                    checkbox.name = "content";
+                    checkbox.value = item.id;
+                    listItem.appendChild(checkbox);
+                    listItem.appendChild(document.createTextNode(item.content));
+                    contentList.appendChild(listItem);
                 });
-                if (index !== -1) {
-                    data.splice(index, 1);
-                }
-            });
+            }
 
-            // 삭제 후 화면 갱신
-            displayContent();
+            // 선택된 내용을 삭제하는 함수
+            function deleteSelected() {
+                var checkboxes = document.getElementsByName("content");
+                var selectedItems = [];
+
+                checkboxes.forEach(function(checkbox) {
+                    if (checkbox.checked) {
+                        selectedItems.push(parseInt(checkbox.value));
+                    }
+                });
+
+                // 서버로 선택된 항목 삭제 요청을 보냄
+                fetch('http://localhost:3000/api/content/delete', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ contentIds: selectedItems })
+                })
+                .then(response => response.json())
+                .then(json => {
+                    if (json.success) {
+                        fetchData(); // 성공적으로 삭제되면 데이터를 다시 가져옴
+                    } else {
+                        console.error('Error deleting content:', json.error);
+                    }
+                })
+                .catch(error => console.error('Error deleting content:', error));
+            }
+
+            // 페이지 로드 시 데이터 가져오기
+            fetchData();
         }
 
-        // 페이지 로드 시 저장된 내용 표시
-        displayContent();
+        // 페이지 로드 시 함수 호출
+        fetchDataAndDeleteSelected();
     </script>
 </body>
 </html>
