@@ -1,16 +1,16 @@
-<!-- login.html -->
+<!-- index.html -->
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-    <link rel="stylesheet" href="/login.css">
+    <title>Index Page</title>
+    <link rel="stylesheet" href="/index.css">
 </head>
 <body>
     <h2>                    로그인</h2>
-    <form id="login-form">
+    <form id="index-form">
         <div>
             <input type="text" id="student_id" name="student_id" placeholder="학번" required>
         </div>
@@ -20,7 +20,7 @@
         <button type="submit">로그인</button>
     </form>
 
-    <script src="/login.js"></script>
+    <script src="/index.js"></script>
 </body>
 </html>
 
@@ -600,7 +600,7 @@
         ];
 
         // 로그인 양식 제출 처리
-        document.getElementById("login-form").addEventListener("submit", function(event){
+        document.getElementById("index-form").addEventListener("submit", function(event){
             event.preventDefault(); // 폼 제출 방지
 
             // 입력된 학번과 비밀번호 가져오기
