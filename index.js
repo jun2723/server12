@@ -1,4 +1,4 @@
-// login.js
+// index.js
 
 document.addEventListener('DOMContentLoaded', function() {
     var studentIdInput = document.getElementById('student_id');
