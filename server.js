@@ -12,11 +12,6 @@ app.get('/index', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
-// 로그인 페이지로 들어오는 요청에 대한 처리
-app.get('/login', (req, res) => {
-    res.sendFile(__dirname + '/login.html');
-});
-
 // 작성 페이지로 들어오는 요청에 대한 처리
 app.get('/test2', (req, res) => {
     res.sendFile(__dirname + '/test2.html');
