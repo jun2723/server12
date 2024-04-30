@@ -17,7 +17,7 @@
         function fetchDataAndDeleteSelected() {
             // 서버로부터 데이터를 가져오는 함수
             function fetchData() {
-                fetch('https://jun2723.github.io/server12/view.html')
+                fetch('https://jun2723.github.io/server12/api/content')
                     .then(response => response.json())
                     .then(json => {
                         data = json;
@@ -55,7 +55,7 @@
                 });
 
                 // 서버로 선택된 항목 삭제 요청을 보냄
-                fetch('http://localhost:3000/api/content/delete', {
+                fetch('https://jun2723.github.io/server12/api/content/delete', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
