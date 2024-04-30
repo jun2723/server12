@@ -14,7 +14,7 @@ app.get('/index', (req, res) => {
 
 // 인덱스 페이지로 들어오는 요청에 대한 처리
 app.get('/login', (req, res) => {
-    res.sendFile(__dirname + '/login.html');
+    res.sendFile(__dirname + '/index.html');
 });
 
 // 작성 페이지로 들어오는 요청에 대한 처리
